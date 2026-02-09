@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OneStream Overview</title>
     <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/solarized.min.css"
+      id="theme"
+    />
   </head>
   <body>
     <div class="app-shell">
@@ -38,7 +47,7 @@
           Presentation
         </button>
         <button class="tab-button" role="tab" aria-selected="false" data-tab="test">
-          Test
+          Test V2
         </button>
         <button class="tab-button" role="tab" aria-selected="false" data-tab="settings">
           Settings
@@ -86,54 +95,307 @@
         </section>
 
         <section class="tab-panel" id="test" role="tabpanel">
-          <div class="test-tab">
-            <div class="container">
-              <div class="viewer">
-                <div class="toolbar">
-                  <button class="ghost" id="prevBtn" title="Previous page">◀ Prev</button>
-                  <button class="ghost" id="nextBtn" title="Next page">Next ▶</button>
-                  <label class="test-label" for="pageInput">Go to page:</label>
-                  <input id="pageInput" type="number" min="1" value="1" />
-                  <div class="toolbar-spacer"></div>
-                  <div class="top-note">
-                    This viewer uses your uploaded file:
-                    <strong>OneStream Overview - Introduction to Key Concepts.pdf</strong>.
-                  </div>
-                </div>
+          <div class="test-v2">
+            <div class="reveal">
+              <div class="slides">
+                <section>
+                  <h1>OneStream Overview</h1>
+                  <div class="slide-sub">Introduction to Key OneStream Concepts</div>
+                  <div class="small-muted">Riveron Consulting</div>
+                  <aside class="notes">
+                    Title slide / presenter name and date can be added here.
+                  </aside>
+                </section>
 
-                <div class="pdfwrap" id="pdfwrap">
-                  <embed
-                    id="pdfEmbed"
-                    src="OneStream Overview - Introduction to Key Concepts.pdf#page=1"
-                    type="application/pdf"
-                    width="100%"
-                    height="100%"
-                  />
-                </div>
+                <section>
+                  <h2>Benefits of OneStream</h2>
+                  <ul>
+                    <li>Guided workflows for loading, consolidating and reviewing data</li>
+                    <li>Structured, secured financial data management and quality</li>
+                    <li>Immediate visibility for data loads (files, forms)</li>
+                    <li>Audit trails and centralized management of processes</li>
+                    <li>Ease of reporting and analytics</li>
+                  </ul>
+                  <aside class="notes">
+                    Emphasize how users can load data themselves and the auditability benefits.
+                  </aside>
+                </section>
 
-                <div class="footer">
-                  <button class="ghost" id="downloadPdf">Download PDF</button>
-                  <div class="footer-spacer"></div>
-                  <div class="footer-note">
-                    Tip: If the embedded PDF doesn't jump to pages in your browser, click the page
-                    link in the right column to open the PDF page in a new tab.
+                <section>
+                  <h2>OneStream: Engineered to Work Together</h2>
+                  <ul>
+                    <li>One Product | One Platform | Multiple Solutions</li>
+                    <li>
+                      Guided Workflow • Analytic Platform • Financial Consolidation • Data Quality •
+                      GL/ERP
+                    </li>
+                  </ul>
+                  <aside class="notes">Show platform graphic if desired.</aside>
+                </section>
+
+                <section>
+                  <h2>Dimensions and the POV</h2>
+                  <div class="slide-sub">Core concept overview</div>
+                  <ul>
+                    <li>Dimensions + Metadata define reporting structure</li>
+                    <li>Dimensions are ways to slice data: e.g., Entity, Account, Cost Center</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Dimensions &amp; Metadata — Details</h2>
+                  <ul>
+                    <li>Multi-dimensional model; metadata composes dimensions</li>
+                    <li>18 dimensions in OneStream (plus cube)</li>
+                    <li>Each amount is identified by a 19-member "address"</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Hierarchy &amp; Members</h2>
+                  <ul>
+                    <li>
+                      Members arranged in hierarchies (parent, child, descendant, base-level)
+                    </li>
+                    <li>Members can appear multiple times via Relationships</li>
+                    <li>Aggregation &amp; consolidation use these relationships</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>POV (Point of View)</h2>
+                  <ul>
+                    <li>POV determines which slice of the cube you are viewing</li>
+                    <li>
+                      If data is missing or unexpected, check the POV (Cube POV, Workflow POV,
+                      Global)
+                    </li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Cube</h2>
+                  <ul>
+                    <li>A cube organizes dimensions, rules, and data</li>
+                    <li>Multiple cubes can be built and linked for specific solutions</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Entity</h2>
+                  <ul>
+                    <li>Represents legal entity or business unit</li>
+                    <li>Currency translation and consolidation governed by Entity</li>
+                    <li>Data consolidates up the Entity hierarchy</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Parent</h2>
+                  <ul>
+                    <li>Parent of a selected Entity</li>
+                    <li>
+                      Entities may appear under different parents across hierarchies (different
+                      currency/ownership)
+                    </li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Consolidation</h2>
+                  <ul>
+                    <li>Tracks aggregation during consolidation</li>
+                    <li>Consolidation members and sequence drive how amounts roll up</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Consolidation — Top Hierarchy</h2>
+                  <ul>
+                    <li>Local: uses functional currency assigned to Entity</li>
+                    <li>Translated: Local translated to parent currency</li>
+                    <li>
+                      OwnerPreAdj, Share (ownership), Elimination, OwnerPostAdj; Top = Share +
+                      Eliminations + OwnerPostAdj
+                    </li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Consolidation Sequence</h2>
+                  <div class="slide-sub">
+                    Reference OneStream Design &amp; Reference Guide for full sequence
                   </div>
-                </div>
+                  <ul>
+                    <li>Follow documented consolidation sequence for accurate results</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Consolidation — Currency Hierarchy</h2>
+                  <ul>
+                    <li>Currencies enabled per reporting requirements</li>
+                    <li>Each Entity has a default currency; translations occur automatically</li>
+                    <li>System members such as Local and Translated are dynamic</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Consolidation — Analysis Hierarchy</h2>
+                  <ul>
+                    <li>
+                      Aggregated member for planning/forecasting (simplified aggregation; no
+                      eliminations)
+                    </li>
+                    <li>Used to accelerate performance for planning scenarios</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Scenario</h2>
+                  <ul>
+                    <li>Typical Scenarios: Actuals, Budget, Forecast, etc.</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Scenario Details</h2>
+                  <ul>
+                    <li>
+                      Scenarios do not aggregate across certain dimensions by design; they are
+                      configured per requirement
+                    </li>
+                    <li>Scenario Types group scenarios to vary rules and behavior</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Time (Calendar)</h2>
+                  <ul>
+                    <li>Standard calendars: 12 months, 4 quarters, 2 half years, 1 year</li>
+                    <li>
+                      Examples: 2021M1, 2021Q1; fiscal vs calendar options; weekly apps possible
+                    </li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>View</h2>
+                  <ul>
+                    <li>
+                      Built-in calendar intelligence for flow-type accounts (MTD, QTD, YTD)
+                    </li>
+                    <li>
+                      Members for annotations, calc status, and predefined math (TrailingXMonths
+                      Sum/Average)
+                    </li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Account</h2>
+                  <ul>
+                    <li>Accounts dimension = Chart of Accounts</li>
+                    <li>
+                      Accounts have types (revenue, expense, asset, liability) that affect
+                      aggregation
+                    </li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Flow</h2>
+                  <ul>
+                    <li>Visibility into account movements (roll forwards)</li>
+                    <li>
+                      Supports FX by account, cash flow reporting, historical-rate overrides
+                    </li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Flow — Details</h2>
+                  <ul>
+                    <li>Many calculated members; simple for P&amp;L, more extensive for Balance Sheet</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Origin</h2>
+                  <ul>
+                    <li>
+                      Tracks input source/origination of data — important for workflow and data
+                      lineage
+                    </li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Origin Members</h2>
+                  <ul>
+                    <li>Import: file loads via Workflow</li>
+                    <li>Forms: data via Forms or Excel templates</li>
+                    <li>AdjInput, AdjConsolidated, Elimination, BeforeAdj (Import + Forms = BeforeAdj)</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>ICP (Intercompany Partner)</h2>
+                  <ul>
+                    <li>Indicates partner Entity for a transaction (members flagged IsIC)</li>
+                    <li>Key for intercompany automation and eliminations</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>User-Defined Dimensions (UD1–UD8)</h2>
+                  <ul>
+                    <li>Eight UDs available (UD1–UD8)</li>
+                    <li>
+                      Riveron common uses: UD6 reporting, UD7 tracking, UD8 dynamic calculations;
+                      others configurable per client
+                    </li>
+                    <li>UDs can be constrained to account groups</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Extensibility</h2>
+                  <ul>
+                    <li>
+                      Metadata can vary in level of detail across contexts (Extensible
+                      Dimensionality)
+                    </li>
+                    <li>Design &amp; Reference Guide provides recommended patterns</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Extensibility Notes</h2>
+                  <ul>
+                    <li>
+                      Use different levels of granularity for corporate vs actual vs budget models
+                      where appropriate
+                    </li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Extensibility — Example</h2>
+                  <div class="slide-sub">
+                    Diagram: differences between corporate vs actual vs budget metadata levels
+                  </div>
+                  <aside class="notes">Replace with actual diagram if you want a visual slide.</aside>
+                </section>
+
+                <section>
+                  <h2>Closing / Contact</h2>
+                  <div>© 2025 Riveron Consulting, LLC. All rights reserved.</div>
+                  <div class="small-muted">
+                    Riveron is not a CPA firm. Contact / Visit our website for more info.
+                  </div>
+                </section>
               </div>
-
-              <aside class="sidebar">
-                <div class="sidebar-header">
-                  <h3>Slides & Text</h3>
-                  <div class="sidebar-count" id="pageCount">30 pages</div>
-                </div>
-
-                <div class="search">
-                  <input id="searchBox" type="search" placeholder="Search slide text (press Enter)" />
-                  <button class="ghost" id="clearSearch">Clear</button>
-                </div>
-
-                <div class="page-list" id="pageList"></div>
-              </aside>
             </div>
           </div>
         </section>
@@ -150,63 +412,10 @@
           </div>
         </section>
 
-        <section class="tab-panel" id="test" role="tabpanel">
-          <div class="test-viewer">
-            <div class="test-viewer__main">
-              <div class="test-toolbar">
-                <button class="ghost" id="test-prev-btn" title="Previous page">◀ Prev</button>
-                <button class="ghost" id="test-next-btn" title="Next page">Next ▶</button>
-                <label class="test-label" for="test-page-input">Go to page:</label>
-                <input id="test-page-input" type="number" min="1" value="1" />
-                <div class="test-toolbar-spacer"></div>
-                <div class="test-top-note">
-                  This viewer uses your uploaded file:
-                  <strong>OneStream Overview - Introduction to Key Concepts.pdf</strong>.
-                </div>
-              </div>
-
-              <div class="test-pdfwrap">
-                <embed
-                  id="test-pdf-embed"
-                  src="OneStream Overview - Introduction to Key Concepts.pdf#page=1"
-                  type="application/pdf"
-                  width="100%"
-                  height="100%"
-                />
-              </div>
-
-              <div class="test-footer">
-                <button class="ghost" id="test-download-pdf">Download PDF</button>
-                <div class="test-footer-spacer"></div>
-                <div class="test-footer-note">
-                  Tip: If the embedded PDF doesn't jump to pages in your browser, click the page
-                  link in the right column to open the PDF page in a new tab.
-                </div>
-              </div>
-            </div>
-
-            <aside class="test-sidebar">
-              <div class="test-sidebar-header">
-                <h3>Slides & Text</h3>
-                <div class="test-sidebar-count" id="test-page-count">30 pages</div>
-              </div>
-
-              <div class="test-search">
-                <input
-                  id="test-search-box"
-                  type="search"
-                  placeholder="Search slide text (press Enter)"
-                />
-                <button class="ghost" id="test-clear-search">Clear</button>
-              </div>
-
-              <div class="test-page-list" id="test-page-list"></div>
-            </aside>
-          </div>
-        </section>
       </main>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
