@@ -221,3 +221,296 @@ themeToggle.addEventListener('change', (event) => {
 
 renderSlides();
 logActivity('Presentation template loaded. Start with a prompt to customize.');
+
+function initTestViewer() {
+  const pageListEl = document.getElementById('test-page-list');
+  const pdfEmbed = document.getElementById('test-pdf-embed');
+  const pageInput = document.getElementById('test-page-input');
+  const prevBtn = document.getElementById('test-prev-btn');
+  const nextBtn = document.getElementById('test-next-btn');
+  const searchBox = document.getElementById('test-search-box');
+  const clearSearch = document.getElementById('test-clear-search');
+  const downloadBtn = document.getElementById('test-download-pdf');
+  const pageCount = document.getElementById('test-page-count');
+
+  if (!pageListEl || !pdfEmbed || !pageInput) {
+    return;
+  }
+
+  const PDF_PATH = 'OneStream Overview - Introduction to Key Concepts.pdf';
+  const PDF_URL = encodeURI(PDF_PATH);
+
+  const pages = [
+    `Page 1 — OneStream Overview
+Introduction to Key OneStream Concepts
+(Riveron title slide)
+`,
+    `Page 2 — Benefits of OneStream
+• Guided Workflows
+• Loading, consolidating and reviewing data
+• Structured and secured as appropriate
+• A flow of work (do this, then do this, etc.)
+• Financial data management and quality
+• Customers can load their own data and see results immediately
+• Data File Loads, Direct input through Forms
+• All traced for audit purposes
+• Centralized management of data loads and related processes
+• Ease of reporting and analytics
+`,
+    `Page 3 — OneStream: Engineered to Work Together
+One Product | One Platform | Multiple Solutions
+(Graphic shows Guided Workflow, Analytic Platform, Financial Consolidation, Data Quality, GL/ERP)
+`,
+    `Page 4 — Dimensions and the POV (title slide)`,
+    `Page 5 — Dimensions and the POV
+• Multi-Dimensional
+• Metadata defines reporting structure; composed of dimensions
+• Dimensions are ways to define and slice data: Entity, Account, Cost Center
+• There are 18 dimensions in OneStream (plus cube)
+• Each amount defined by its 19-member "address"
+`,
+    `Page 6 — Dimensions and the POV
+• Members arranged in hierarchies
+• Members can appear multiple times in different hierarchies through Relationships
+• Parent, child, descendant, base-level members (where data is loaded)
+• OneStream aggregates and consolidates using these relationships
+`,
+    `Page 7 — POV is everything
+• Can't find data? Check POV
+• Numbers off? Check POV
+• Report not showing expected data? Check POV
+• Cube POV, Workflow POV, Global, Cube View
+`,
+    `Page 8 — Cube
+• A cube organizes dimensions, rules, and data
+• Multiple cubes can be built; cubes can be linked
+`,
+    `Page 9 — Entity
+• Represents legal entity or business unit
+• Currency translation and consolidation governed by Entity
+• Data consolidates up Entity hierarchy
+• Each Entity assigned a default currency
+`,
+    `Page 10 — Parent
+• Parent entity of selected Entity
+• In multiple hierarchies, Entity can exist multiple times with different parents (different currency, ownership)
+`,
+    `Page 11 — Consolidation
+• Consolidation dimension tracks aggregation during consolidation
+`,
+    `Page 12 — Consolidation — Top Hierarchy
+• Local: pulls functional currency assigned to Entity
+• Translated: Local translated to parent currency
+• OwnerPreAdj, Share (apply ownership), Elimination, OwnerPostAdj, Top = Share + Eliminations + OwnerPostAdj
+`,
+    `Page 13 — Consolidation sequence (reference to OneStream Design and Reference Guide; Help button)`,
+    `Page 14 — Consolidation — Currency Hierarchy
+• Currencies enabled per reporting requirements
+• Each Entity assigned default currency; translated to parent automatically
+• System members Local and Translated are dynamic
+`,
+    `Page 15 — Consolidation — Analysis Hierarchy
+• Aggregated member for planning/forecasting (no eliminations; simplified aggregation)
+• Accelerates performance
+`,
+    `Page 16 — Scenario (Actuals, Budget, Forecast, etc.)`,
+    `Page 17 — Scenario details
+• Scenarios do not aggregate; designed per requirements
+• Scenario Types used to group scenarios to vary rules
+`,
+    `Page 18 — Time (calendar for the cube)
+• Standard calendar: 12 months, 4 quarters, 2 half years, 1 total year
+• Examples: 2021M1, 2021Q1; options for fiscal/calendar; weekly apps
+`,
+    `Page 19 — View
+• Built-in calendar intelligence for Flow-type accounts (MTD, QTD, YTD)
+• Members for annotations, calc status and predefined math (TrailingXMonths Sum/Average)
+`,
+    `Page 20 — Account
+• Accounts dimension is the Chart of Accounts
+• Accounts assigned types (revenue, expense, asset, liability) impacting aggregation
+• Data loaded at base Accounts and aggregated to parents
+`,
+    `Page 21 — Flow
+• Visibility into account movements (roll forwards)
+• FX by Account, Cash Flow reporting, Historical Rate overrides
+`,
+    `Page 22 — Flow details
+• Many calculated members; some dynamic; simple for P&L, extensive for Balance Sheet
+`,
+    `Page 23 — Origin
+• Tracks input source/origination of data — critical to Workflow
+`,
+    `Page 24 — Origin members
+• Import: Data loaded via file through Workflow
+• Forms: Data loaded via Forms or Excel templates
+• AdjInput, AdjConsolidated, Elimination
+• BeforeAdj: unique parent member where users input desired end amount (Import + Forms = BeforeAdj)
+`,
+    `Page 25 — ICP (Intercompany Partner)
+• Indicates partner Entity for a transaction; composed of Entity members flagged IsIC
+• Integral to intercompany automation/eliminations
+`,
+    `Page 26 — UD1-UD8 (User Defined Dimensions)
+• Eight UDs (UD1–UD8)
+• Riveron typical usage notes: UD6 reporting, UD7 tracking, UD8 dynamic calcs, others open for client needs
+• UDs can be constrained to account groups
+`,
+    `Page 27 — Extensibility (title slide)`,
+    `Page 28 — Extensibility notes
+• Metadata can have different levels of detail in different circumstances (Extensible Dimensionality)
+• Description from OneStream Design & Reference Guide
+`,
+    `Page 29 — Extensibility example diagram (corporate vs actual vs budget level differences)`,
+    `Page 30 — Closing / Contact
+© 2025 Riveron Consulting, LLC. All rights reserved. Riveron is not a CPA firm.
+Contact / Visit our website / For more info
+`
+  ];
+
+  if (pageCount) {
+    pageCount.textContent = `${pages.length} pages`;
+  }
+
+  pageInput.max = String(pages.length);
+
+  function createOpenLink(pageNum) {
+    const openLink = document.createElement('a');
+    openLink.href = `${PDF_URL}#page=${pageNum}`;
+    openLink.target = '_blank';
+    openLink.rel = 'noreferrer';
+    openLink.textContent = 'Open';
+    openLink.className = 'test-page-open';
+    return openLink;
+  }
+
+  function setMeta(metaEl, text, openLink) {
+    metaEl.innerHTML = '';
+    metaEl.append(document.createTextNode(text), openLink);
+  }
+
+  function makePageItem(index, text) {
+    const pageNum = index + 1;
+    const item = document.createElement('div');
+    item.className = 'test-page-item';
+    item.dataset.page = String(pageNum);
+
+    const title = document.createElement('strong');
+    title.textContent = `Slide ${pageNum}`;
+
+    const meta = document.createElement('div');
+    meta.className = 'test-page-meta';
+    const openLink = createOpenLink(pageNum);
+    setMeta(meta, text.split('\n')[0].trim(), openLink);
+
+    const body = document.createElement('div');
+    body.className = 'test-page-text';
+    body.textContent = text.trim();
+
+    item.append(title, meta, body);
+    item.addEventListener('click', () => {
+      setActive(pageNum);
+      goToPage(pageNum);
+    });
+
+    return item;
+  }
+
+  pages.forEach((pageText, index) => {
+    pageListEl.appendChild(makePageItem(index, pageText));
+  });
+
+  function setActive(pageNum) {
+    document.querySelectorAll('.test-page-item').forEach((el) => {
+      const isActive = Number(el.dataset.page) === pageNum;
+      el.classList.toggle('active', isActive);
+      const textEl = el.querySelector('.test-page-text');
+      if (textEl) {
+        textEl.style.display = isActive ? 'block' : 'none';
+      }
+    });
+    pageInput.value = String(pageNum);
+  }
+
+  function goToPage(pageNum) {
+    pdfEmbed.src = `${PDF_URL}#page=${pageNum}`;
+    pageInput.value = String(pageNum);
+    const selected = document.querySelector(`.test-page-item[data-page="${pageNum}"]`);
+    if (selected) {
+      selected.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  prevBtn?.addEventListener('click', () => {
+    const current = Number(pageInput.value) || 1;
+    if (current > 1) {
+      goToPage(current - 1);
+      setActive(current - 1);
+    }
+  });
+
+  nextBtn?.addEventListener('click', () => {
+    const current = Number(pageInput.value) || 1;
+    if (current < pages.length) {
+      goToPage(current + 1);
+      setActive(current + 1);
+    }
+  });
+
+  pageInput.addEventListener('change', (event) => {
+    let value = Number(event.target.value) || 1;
+    value = Math.max(1, Math.min(pages.length, value));
+    goToPage(value);
+    setActive(value);
+  });
+
+  function performSearch(term) {
+    const normalized = (term || '').trim().toLowerCase();
+    const items = Array.from(document.querySelectorAll('.test-page-item'));
+    items.forEach((item) => {
+      const index = Number(item.dataset.page) - 1;
+      const pageText = pages[index];
+      const matches = !normalized || pageText.toLowerCase().includes(normalized);
+      item.style.display = matches ? '' : 'none';
+      if (matches) {
+        const meta = item.querySelector('.test-page-meta');
+        const openLink = meta?.querySelector('.test-page-open');
+        if (!meta || !openLink) {
+          return;
+        }
+        if (normalized) {
+          const matchIndex = pageText.toLowerCase().indexOf(normalized);
+          const snippet = pageText.substring(
+            Math.max(0, matchIndex - 40),
+            Math.min(pageText.length, matchIndex + 120)
+          );
+          setMeta(meta, snippet.replace(/\n/g, ' '), openLink);
+        } else {
+          setMeta(meta, pageText.split('\n')[0].trim(), openLink);
+        }
+      }
+    });
+  }
+
+  searchBox?.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      performSearch(searchBox.value);
+    }
+  });
+
+  clearSearch?.addEventListener('click', () => {
+    if (!searchBox) {
+      return;
+    }
+    searchBox.value = '';
+    performSearch('');
+  });
+
+  downloadBtn?.addEventListener('click', () => {
+    window.open(PDF_URL, '_blank', 'noopener');
+  });
+
+  setActive(1);
+}
+
+initTestViewer();

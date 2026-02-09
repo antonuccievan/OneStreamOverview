@@ -37,6 +37,9 @@
         <button class="tab-button" role="tab" aria-selected="false" data-tab="presentation">
           Presentation
         </button>
+        <button class="tab-button" role="tab" aria-selected="false" data-tab="test">
+          Test
+        </button>
         <button class="tab-button" role="tab" aria-selected="false" data-tab="settings">
           Settings
         </button>
@@ -91,6 +94,61 @@
               <span class="toggle-track"></span>
               <span class="toggle-label">Dark mode</span>
             </label>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="test" role="tabpanel">
+          <div class="test-viewer">
+            <div class="test-viewer__main">
+              <div class="test-toolbar">
+                <button class="ghost" id="test-prev-btn" title="Previous page">◀ Prev</button>
+                <button class="ghost" id="test-next-btn" title="Next page">Next ▶</button>
+                <label class="test-label" for="test-page-input">Go to page:</label>
+                <input id="test-page-input" type="number" min="1" value="1" />
+                <div class="test-toolbar-spacer"></div>
+                <div class="test-top-note">
+                  This viewer uses your uploaded file:
+                  <strong>OneStream Overview - Introduction to Key Concepts.pdf</strong>.
+                </div>
+              </div>
+
+              <div class="test-pdfwrap">
+                <embed
+                  id="test-pdf-embed"
+                  src="OneStream Overview - Introduction to Key Concepts.pdf#page=1"
+                  type="application/pdf"
+                  width="100%"
+                  height="100%"
+                />
+              </div>
+
+              <div class="test-footer">
+                <button class="ghost" id="test-download-pdf">Download PDF</button>
+                <div class="test-footer-spacer"></div>
+                <div class="test-footer-note">
+                  Tip: If the embedded PDF doesn't jump to pages in your browser, click the page
+                  link in the right column to open the PDF page in a new tab.
+                </div>
+              </div>
+            </div>
+
+            <aside class="test-sidebar">
+              <div class="test-sidebar-header">
+                <h3>Slides & Text</h3>
+                <div class="test-sidebar-count" id="test-page-count">30 pages</div>
+              </div>
+
+              <div class="test-search">
+                <input
+                  id="test-search-box"
+                  type="search"
+                  placeholder="Search slide text (press Enter)"
+                />
+                <button class="ghost" id="test-clear-search">Clear</button>
+              </div>
+
+              <div class="test-page-list" id="test-page-list"></div>
+            </aside>
           </div>
         </section>
       </main>
