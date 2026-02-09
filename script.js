@@ -223,23 +223,22 @@ renderSlides();
 logActivity('Presentation template loaded. Start with a prompt to customize.');
 
 function initTestViewer() {
-  const pageListEl = document.getElementById('pageList');
-  const pdfEmbed = document.getElementById('pdfEmbed');
-  const pageInput = document.getElementById('pageInput');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const searchBox = document.getElementById('searchBox');
-  const clearSearch = document.getElementById('clearSearch');
-  const downloadBtn = document.getElementById('downloadPdf');
-  const pageCount = document.getElementById('pageCount');
+  const pageListEl = document.getElementById('test-page-list');
+  const pdfEmbed = document.getElementById('test-pdf-embed');
+  const pageInput = document.getElementById('test-page-input');
+  const prevBtn = document.getElementById('test-prev-btn');
+  const nextBtn = document.getElementById('test-next-btn');
+  const searchBox = document.getElementById('test-search-box');
+  const clearSearch = document.getElementById('test-clear-search');
+  const downloadBtn = document.getElementById('test-download-pdf');
+  const pageCount = document.getElementById('test-page-count');
 
   if (!pageListEl || !pdfEmbed || !pageInput) {
     return;
   }
 
-  const pdfPath = 'OneStream Overview - Introduction to Key Concepts.pdf';
-  const pdfUrl = encodeURI(pdfPath);
-  pdfEmbed.src = `${pdfUrl}#page=1`;
+  const PDF_PATH = 'OneStream Overview - Introduction to Key Concepts.pdf';
+  const PDF_URL = encodeURI(PDF_PATH);
 
   const pages = [
     `Page 1 — OneStream Overview
@@ -369,55 +368,43 @@ Contact / Visit our website / For more info
 `
   ];
 
-  pageInput.max = String(pages.length);
   if (pageCount) {
     pageCount.textContent = `${pages.length} pages`;
   }
 
-  function setActive(pageNum) {
-    document.querySelectorAll('.page-item').forEach((el) => {
-      const isActive = Number(el.dataset.page) === pageNum;
-      el.classList.toggle('active', isActive);
-      const textEl = el.querySelector('.text');
-      if (textEl) {
-        textEl.style.display = isActive ? 'block' : 'none';
-      }
-    });
-    pageInput.value = String(pageNum);
+  pageInput.max = String(pages.length);
+
+  function createOpenLink(pageNum) {
+    const openLink = document.createElement('a');
+    openLink.href = `${PDF_URL}#page=${pageNum}`;
+    openLink.target = '_blank';
+    openLink.rel = 'noreferrer';
+    openLink.textContent = 'Open';
+    openLink.className = 'test-page-open';
+    return openLink;
   }
 
-  function goToPage(pageNum) {
-    pdfEmbed.src = `${pdfUrl}#page=${pageNum}`;
-    pageInput.value = String(pageNum);
-    const selected = document.querySelector(`.page-item[data-page="${pageNum}"]`);
-    if (selected) {
-      selected.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
+  function setMeta(metaEl, text, openLink) {
+    metaEl.innerHTML = '';
+    metaEl.append(document.createTextNode(text), openLink);
   }
 
-  function buildPageItem(index, text) {
+  function makePageItem(index, text) {
     const pageNum = index + 1;
     const item = document.createElement('div');
-    item.className = 'page-item';
+    item.className = 'test-page-item';
     item.dataset.page = String(pageNum);
 
     const title = document.createElement('strong');
     title.textContent = `Slide ${pageNum}`;
 
     const meta = document.createElement('div');
-    meta.className = 'meta';
-    meta.textContent = text.split('\n')[0].trim();
-
-    const openLink = document.createElement('a');
-    openLink.href = `${pdfUrl}#page=${pageNum}`;
-    openLink.target = '_blank';
-    openLink.rel = 'noreferrer';
-    openLink.textContent = 'Open';
-    openLink.className = 'link';
-    meta.appendChild(openLink);
+    meta.className = 'test-page-meta';
+    const openLink = createOpenLink(pageNum);
+    setMeta(meta, text.split('\n')[0].trim(), openLink);
 
     const body = document.createElement('div');
-    body.className = 'text';
+    body.className = 'test-page-text';
     body.textContent = text.trim();
 
     item.append(title, meta, body);
@@ -430,64 +417,77 @@ Contact / Visit our website / For more info
   }
 
   pages.forEach((pageText, index) => {
-    pageListEl.appendChild(buildPageItem(index, pageText));
+    pageListEl.appendChild(makePageItem(index, pageText));
   });
+
+  function setActive(pageNum) {
+    document.querySelectorAll('.test-page-item').forEach((el) => {
+      const isActive = Number(el.dataset.page) === pageNum;
+      el.classList.toggle('active', isActive);
+      const textEl = el.querySelector('.test-page-text');
+      if (textEl) {
+        textEl.style.display = isActive ? 'block' : 'none';
+      }
+    });
+    pageInput.value = String(pageNum);
+  }
+
+  function goToPage(pageNum) {
+    pdfEmbed.src = `${PDF_URL}#page=${pageNum}`;
+    pageInput.value = String(pageNum);
+    const selected = document.querySelector(`.test-page-item[data-page="${pageNum}"]`);
+    if (selected) {
+      selected.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
 
   prevBtn?.addEventListener('click', () => {
     const current = Number(pageInput.value) || 1;
     if (current > 1) {
-      setActive(current - 1);
       goToPage(current - 1);
+      setActive(current - 1);
     }
   });
 
   nextBtn?.addEventListener('click', () => {
     const current = Number(pageInput.value) || 1;
     if (current < pages.length) {
-      setActive(current + 1);
       goToPage(current + 1);
+      setActive(current + 1);
     }
   });
 
   pageInput.addEventListener('change', (event) => {
     let value = Number(event.target.value) || 1;
     value = Math.max(1, Math.min(pages.length, value));
-    setActive(value);
     goToPage(value);
+    setActive(value);
   });
 
   function performSearch(term) {
     const normalized = (term || '').trim().toLowerCase();
-    const items = Array.from(document.querySelectorAll('.page-item'));
+    const items = Array.from(document.querySelectorAll('.test-page-item'));
     items.forEach((item) => {
       const index = Number(item.dataset.page) - 1;
       const pageText = pages[index];
       const matches = !normalized || pageText.toLowerCase().includes(normalized);
       item.style.display = matches ? '' : 'none';
       if (matches) {
-        const meta = item.querySelector('.meta');
-        if (!meta) {
+        const meta = item.querySelector('.test-page-meta');
+        const openLink = meta?.querySelector('.test-page-open');
+        if (!meta || !openLink) {
           return;
         }
-        meta.innerHTML = '';
-        let snippet = pageText.split('\n')[0].trim();
         if (normalized) {
           const matchIndex = pageText.toLowerCase().indexOf(normalized);
-          if (matchIndex >= 0) {
-            snippet = pageText
-              .substring(Math.max(0, matchIndex - 40), Math.min(pageText.length, matchIndex + 120))
-              .replace(/\n/g, ' ');
-          }
+          const snippet = pageText.substring(
+            Math.max(0, matchIndex - 40),
+            Math.min(pageText.length, matchIndex + 120)
+          );
+          setMeta(meta, snippet.replace(/\n/g, ' '), openLink);
+        } else {
+          setMeta(meta, pageText.split('\n')[0].trim(), openLink);
         }
-        meta.appendChild(document.createTextNode(snippet));
-
-        const openLink = document.createElement('a');
-        openLink.href = `${pdfUrl}#page=${index + 1}`;
-        openLink.target = '_blank';
-        openLink.rel = 'noreferrer';
-        openLink.textContent = 'Open';
-        openLink.className = 'link';
-        meta.appendChild(openLink);
       }
     });
   }
@@ -507,7 +507,7 @@ Contact / Visit our website / For more info
   });
 
   downloadBtn?.addEventListener('click', () => {
-    window.open(pdfUrl, '_blank', 'noopener');
+    window.open(PDF_URL, '_blank', 'noopener');
   });
 
   setActive(1);
