@@ -55,6 +55,46 @@ const slideData = [
       'Example: Actuals feeding Planning.'
     ],
     pill: 'Architecture'
+  },
+  {
+    title: 'Workflow & Process Control',
+    subtitle: 'Structured close and planning cycles with clear accountability.',
+    bullets: [
+      'Workflow profiles organize steps by process, owner, and frequency.',
+      'Status states (Not Started, In Process, Completed) drive visibility.',
+      'Certification and sign-off create strong governance for period close.'
+    ],
+    pill: 'Operations'
+  },
+  {
+    title: 'Data Integration & Quality',
+    subtitle: 'Reliable data movement from source systems into governed finance models.',
+    bullets: [
+      'Data Management orchestrates imports, transforms, and validations.',
+      'Mapping and transformation rules standardize source-system variance.',
+      'Drill-back and audit trails support reconciliation and trust.'
+    ],
+    pill: 'Data'
+  },
+  {
+    title: 'Reporting, Dashboards, and Analysis',
+    subtitle: 'Actionable insights for executives, finance teams, and operations.',
+    bullets: [
+      'Reports, Cube Views, and dashboards deliver role-specific insights.',
+      'Narrative-ready outputs help move from numbers to decisions quickly.',
+      'Variance, trend, and driver analysis can be standardized across entities.'
+    ],
+    pill: 'Insights'
+  },
+  {
+    title: 'Extensibility & Marketplace',
+    subtitle: 'Expand capabilities without redesigning the core finance model.',
+    bullets: [
+      'Business Rules provide custom logic for calculations and process automation.',
+      'Solution Exchange and Marketplace accelerators reduce implementation time.',
+      'Platform extensibility supports evolving requirements over time.'
+    ],
+    pill: 'Extensibility'
   }
 ];
 

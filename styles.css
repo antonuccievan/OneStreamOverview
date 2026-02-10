@@ -103,6 +103,11 @@ h1 {
   accent-color: var(--accent);
 }
 
+.settings-theme-control {
+  margin-top: 1rem;
+  max-width: 180px;
+}
+
 .meta-card,
 .panel,
 .settings-card,
