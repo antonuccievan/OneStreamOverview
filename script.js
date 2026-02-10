@@ -10,7 +10,9 @@ const themeToggle = document.getElementById('theme-toggle');
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
   document.documentElement.setAttribute('data-theme', 'dark');
-  themeToggle.checked = true;
+  if (themeToggle) {
+    themeToggle.checked = true;
+  }
 }
 
 const slideData = [
@@ -53,46 +55,6 @@ const slideData = [
       'Example: Actuals feeding Planning.'
     ],
     pill: 'Architecture'
-  },
-  {
-    title: 'Key Dimensions: Entity & Consolidation',
-    subtitle: 'Drives currency translation and ownership rollups.',
-    bullets: [
-      'Entities consolidate through hierarchies with varying parents/currencies.',
-      'Consolidation stages: Local, Translated, Ownership, Eliminations, Post-Adjustments.',
-      'Alternative Analysis hierarchy enables faster planning without eliminations.'
-    ],
-    pill: 'Governance'
-  },
-  {
-    title: 'Scenario, Time, View',
-    subtitle: 'Controls data types and time intelligence.',
-    bullets: [
-      'Scenario separates Actuals, Budget, Forecast with no aggregation.',
-      'Time supports fiscal, calendar, and weekly models.',
-      'View adds YTD/QTD/MTD logic and annotations.'
-    ],
-    pill: 'Planning'
-  },
-  {
-    title: 'Account, Flow, Origin, ICP',
-    subtitle: 'Defines the chart of accounts and movement tracking.',
-    bullets: [
-      'Account types drive aggregation behavior.',
-      'Flow captures rollforwards, FX, and cash flow logic.',
-      'Origin and ICP ensure auditability and intercompany eliminations.'
-    ],
-    pill: 'Data lineage'
-  },
-  {
-    title: 'User-Defined Dimensions & Extensibility',
-    subtitle: 'Customize the platform without redesigning the model.',
-    bullets: [
-      'UD1-UD8 support client-specific views, reporting, and tracking.',
-      'Constraints limit valid combinations to protect performance.',
-      'Extensible Dimensionality allows detail where needed.'
-    ],
-    pill: 'Extensibility'
   }
 ];
 
@@ -105,6 +67,7 @@ const visualPalettes = [
 
 function renderSlides() {
   slidesContainer.innerHTML = '';
+
   slideData.forEach((slide, index) => {
     const slideEl = document.createElement('article');
     slideEl.className = 'slide';
@@ -201,7 +164,11 @@ tabs.forEach((tab) => {
     panels.forEach((panel) => panel.classList.remove('active'));
     tab.classList.add('active');
     tab.setAttribute('aria-selected', 'true');
-    document.getElementById(tab.dataset.tab).classList.add('active');
+
+    const activePanel = document.getElementById(tab.dataset.tab);
+    if (activePanel) {
+      activePanel.classList.add('active');
+    }
   });
 });
 
@@ -209,33 +176,17 @@ document.getElementById('apply-prompt').addEventListener('click', applyPrompt);
 document.getElementById('generate-presentation').addEventListener('click', generatePresentation);
 document.getElementById('shuffle-visuals').addEventListener('click', shuffleVisuals);
 
-themeToggle.addEventListener('change', (event) => {
-  if (event.target.checked) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('theme', 'dark');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-    localStorage.setItem('theme', 'light');
-  }
-});
-
-renderSlides();
-logActivity('Presentation template loaded. Start with a prompt to customize.');
-
-function initRevealDeck() {
-  if (typeof Reveal === 'undefined') {
-    return;
-  }
-
-  Reveal.initialize({
-    center: true,
-    hash: true,
-    transition: 'slide',
-    slideNumber: true,
-    history: true,
-    width: 1280,
-    height: 720
+if (themeToggle) {
+  themeToggle.addEventListener('change', (event) => {
+    if (event.target.checked) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
   });
 }
 
-initRevealDeck();
+renderSlides();
+logActivity('Presentation template loaded. Start with a prompt to customize.');
